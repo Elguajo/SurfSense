@@ -36,7 +36,7 @@ Fill in the integration details:
 Under **OAuth domains & URIs**, set the **Redirect URI** to:
 
 ```
-http://localhost:8000/api/v1/auth/notion/connector/callback
+http://localhost:8929/api/v1/auth/notion/connector/callback
 ```
 
 Click **Save** to create the integration.
@@ -94,9 +94,9 @@ For additional information:
 Add the Notion credentials to your `.env` file (created during [Docker installation](/docs/docker-installation/docker-compose)):
 
 ```bash
-NOTION_OAUTH_CLIENT_ID=your_notion_client_id
-NOTION_OAUTH_CLIENT_SECRET=your_notion_client_secret
-NOTION_REDIRECT_URI=http://localhost:8000/api/v1/auth/notion/connector/callback
+NOTION_CLIENT_ID=your_notion_client_id
+NOTION_CLIENT_SECRET=your_notion_client_secret
+NOTION_REDIRECT_URI=http://localhost:8929/api/v1/auth/notion/connector/callback
 ```
 
 Then restart the services:
