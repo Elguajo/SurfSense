@@ -7,3 +7,7 @@ node_modules/
 .pnpm-store
 .DS_Store
 deepagents/
+docker/data/**
+!docker/data/**/
+!docker/data/**/.gitkeep
+.kilo/

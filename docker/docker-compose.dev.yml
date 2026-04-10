@@ -16,7 +16,7 @@ services:
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./data/dev/postgres:/var/lib/postgresql/data
       - ./postgresql.conf:/etc/postgresql/postgresql.conf:ro
     environment:
       - POSTGRES_USER=${DB_USER:-postgres}
@@ -37,7 +37,7 @@ services:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-admin@surfsense.com}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-surfsense}
     volumes:
-      - pgadmin_data:/var/lib/pgadmin
+      - ./data/dev/pgadmin:/var/lib/pgadmin
     depends_on:
       - db
 
@@ -46,7 +46,7 @@ services:
     ports:
       - "${REDIS_PORT:-6379}:6379"
     volumes:
-      - redis_data:/data
+      - ./data/dev/redis:/data
     command: redis-server --appendonly yes
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -74,7 +74,7 @@ services:
       - "${BACKEND_PORT:-8000}:8000"
     volumes:
       - ../surfsense_backend/app:/app/app
-      - shared_temp:/shared_tmp
+      - ./data/dev/shared_tmp:/shared_tmp
     env_file:
       - ../surfsense_backend/.env
     environment:
@@ -115,7 +115,7 @@ services:
     build: ../surfsense_backend
     volumes:
       - ../surfsense_backend/app:/app/app
-      - shared_temp:/shared_tmp
+      - ./data/dev/shared_tmp:/shared_tmp
     env_file:
       - ../surfsense_backend/.env
     environment:
@@ -191,7 +191,7 @@ services:
       - ZERO_QUERY_URL=${ZERO_QUERY_URL:-http://frontend:3000/api/zero/query}
       - ZERO_MUTATE_URL=${ZERO_MUTATE_URL:-http://frontend:3000/api/zero/mutate}
     volumes:
-      - zero_cache_data:/data
+      - ./data/dev/zero-cache:/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4848/keepalive"]
@@ -218,14 +218,4 @@ services:
       zero-cache:
         condition: service_healthy
 
-volumes:
-  postgres_data:
-    name: surfsense-dev-postgres
-  pgadmin_data:
-    name: surfsense-dev-pgadmin
-  redis_data:
-    name: surfsense-dev-redis
-  shared_temp:
-    name: surfsense-dev-shared-temp
-  zero_cache_data:
-    name: surfsense-dev-zero-cache
+

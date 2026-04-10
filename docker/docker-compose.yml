@@ -13,7 +13,7 @@ services:
   db:
     image: pgvector/pgvector:pg17
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./data/prod/postgres:/var/lib/postgresql/data
       - ./postgresql.conf:/etc/postgresql/postgresql.conf:ro
     environment:
       POSTGRES_USER: ${DB_USER:-surfsense}
@@ -30,7 +30,7 @@ services:
   redis:
     image: redis:8-alpine
     volumes:
-      - redis_data:/data
+      - ./data/prod/redis:/data
     command: redis-server --appendonly yes
     restart: unless-stopped
     healthcheck:
@@ -57,7 +57,7 @@ services:
     ports:
       - "${BACKEND_PORT:-8929}:8000"
     volumes:
-      - shared_temp:/shared_tmp
+      - ./data/prod/shared_tmp:/shared_tmp
     env_file:
       - .env
     environment:
@@ -97,7 +97,7 @@ services:
   celery_worker:
     image: ghcr.io/modsetter/surfsense-backend:${SURFSENSE_VERSION:-latest}
     volumes:
-      - shared_temp:/shared_tmp
+      - ./data/prod/shared_tmp:/shared_tmp
     env_file:
       - .env
     environment:
@@ -177,7 +177,7 @@ services:
       ZERO_QUERY_URL: ${ZERO_QUERY_URL:-http://frontend:3000/api/zero/query}
       ZERO_MUTATE_URL: ${ZERO_MUTATE_URL:-http://frontend:3000/api/zero/mutate}
     volumes:
-      - zero_cache_data:/data
+      - ./data/prod/zero-cache:/data
     restart: unless-stopped
     depends_on:
       backend:
@@ -207,12 +207,4 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
-volumes:
-  postgres_data:
-    name: surfsense-postgres
-  redis_data:
-    name: surfsense-redis
-  shared_temp:
-    name: surfsense-shared-temp
-  zero_cache_data:
-    name: surfsense-zero-cache
+
