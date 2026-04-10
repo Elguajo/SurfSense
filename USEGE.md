@@ -30,6 +30,17 @@ irm https://raw.githubusercontent.com/MODSetter/SurfSense/main/docker/scripts/in
 ```
 *Примечание: Установочный скрипт автоматически настраивает Watchtower для ежедневных автоматических обновлений. Чтобы пропустить этот шаг, добавьте флаг `--no-watchtower`.*
 
+**После установки:**
+Скрипт автоматически скачает файлы в папку `./surfsense` и запустит контейнеры в фоновом режиме. После завершения загрузки платформа будет доступна по следующим адресам:
+- **Веб-интерфейс (Frontend):** [http://localhost:3929](http://localhost:3929)
+- **API (Backend):** [http://localhost:8929](http://localhost:8929)
+- **Документация API:** [http://localhost:8929/docs](http://localhost:8929/docs)
+
+**Управление контейнерами:**
+- **Настройка:** Отредактируйте файл `./surfsense/.env` для добавления API-ключей и других параметров.
+- **Просмотр логов:** `cd ./surfsense && docker compose logs -f`
+- **Остановка:** `cd ./surfsense && docker compose down`
+
 Для более сложной настройки (через Docker Compose вручную) изучите [официальную документацию](https://www.surfsense.com/docs/).
 
 ### 3. Настольное приложение (Desktop App)
